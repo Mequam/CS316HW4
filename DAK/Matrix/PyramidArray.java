@@ -54,6 +54,10 @@ public class PyramidArray<T extends Object> {
 
     }
     
+    /**
+     * returns wether or not the given coordinent is valid for the container
+     *
+     */
     public boolean validAddr(int i, int j) {
         return i < this.width() && j < this.width()-i;
     }

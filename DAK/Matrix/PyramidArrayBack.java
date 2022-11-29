@@ -37,6 +37,14 @@ public class PyramidArrayBack<T> extends PyramidArray<T> {
         System.out.println("---");    
         
         System.out.println(pa);
+        
+        for (int i = 0; i < 10;i++) {
+            for (int j = 0;j<10;j++) {
+                System.out.println(Integer.toString(i)+","+Integer.toString(j) + ":"
+                + Boolean.toString(pa.validAddr(i, j)));
+            }
+        }
+
 
     }
     
@@ -53,7 +61,13 @@ public class PyramidArrayBack<T> extends PyramidArray<T> {
         this.data[i][map(j)] = data;
     }
 
-    
+    /**
+     * returns wether or not the given address is a valid index of the class
+     */
+   @Override
+   public boolean validAddr(int i,int j)  {
+    return super.validAddr(i,map(j)) && map(j) >= 0;
+   }
     /** 
      * runs the given function over each of the elements
      * inside of the container
