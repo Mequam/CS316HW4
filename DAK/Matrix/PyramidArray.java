@@ -54,6 +54,10 @@ public class PyramidArray<T extends Object> {
 
     }
     
+    public boolean validAddr(int i, int j) {
+        return i < this.width() && j < this.width()-i;
+    }
+    
     public void forEach(Consumer<T> f)  {
         forEach((i,j,data)->{
             f.accept((T)(this.get(i,j)));
@@ -94,6 +98,14 @@ public class PyramidArray<T extends Object> {
         pa.forEach((c)->System.out.println(c));
         
         System.out.println(pa.toString());
-
+        
+        System.out.println("testing valid addresses");      
+        System.out.println("--------");
+        for (int i = 0; i < 10;i++) {
+            for (int j = 0;j<10;j++) {
+                System.out.println(Integer.toString(i)+","+Integer.toString(j) + ":"
+                + Boolean.toString(pa.validAddr(i, j)));
+            }
+        }
     }
 }
