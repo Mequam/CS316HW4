@@ -1,7 +1,6 @@
 package DAK.Matrix;
 
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * this is a container class that impliments
@@ -10,14 +9,20 @@ import java.util.function.Function;
  */
 public class PyramidArray<T extends Object> {
 
-    private Object[][] data;
+    protected Object[][] data;
    
     @FunctionalInterface
     public interface mapRunner<T> {
-        void run(int i,int j, Object[][] o);
+        void run(int i,int j, PyramidArray<T> o);
     }
     
-    
+    /** 
+     * do nothing function
+     * that can only be called privatly
+    */
+    protected PyramidArray() {
+        
+    }
     public PyramidArray(int size) {
         data = new Object[size][];
         for (int i = 0; i < size; i++)
@@ -32,7 +37,7 @@ public class PyramidArray<T extends Object> {
     public void forEach(mapRunner<T> f)  {
         for (int i = 0;i < data.length;i++) {
             for (int j = 0; j < data.length - i;j++){
-                f.run(i, j, data);
+                f.run(i, j, this);
             }
         }
 
@@ -40,7 +45,7 @@ public class PyramidArray<T extends Object> {
     
     public void forEach(Consumer<T> f)  {
         forEach((i,j,data)->{
-            f.accept((T)(data[i][j]));
+            f.accept((T)(this.get(i,j)));
         });
     }
     /**
@@ -68,9 +73,13 @@ public class PyramidArray<T extends Object> {
      */
     public static void main(String [] args) {
         PyramidArray<String> pa = new PyramidArray<String>(5);
+        
         pa.forEach((i,k,data)->{
-            data[i][k] = (Object)(Integer.toString(i) + "," + Integer.toString(k));
-        });
+            data.set(i,
+                k,
+                (Integer.toString(i) + "," + Integer.toString(k)));
+            });
+        
         pa.forEach((c)->System.out.println(c));
 
     }
