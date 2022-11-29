@@ -29,6 +29,17 @@ public class PyramidArray<T extends Object> {
             data[i] = new Object[size - i];
     }
   
+    @Override
+    public String toString() {
+        String ret_val = "";
+        for (int i = 0;i < data.length;i++) {
+            for (int j = 0; j < data.length - i;j++){
+                ret_val += data[j][i].toString() + " ";
+            }
+            ret_val += "\n";
+        }
+        return ret_val;
+    }
     
     /** 
      * runs the given function over each of the elements
@@ -66,7 +77,7 @@ public class PyramidArray<T extends Object> {
     public T get(int i,int j) {
         return (T)(this.data[i][j]);
     }
-    
+  
     /**
      * tester program for the class
      * 
@@ -81,6 +92,8 @@ public class PyramidArray<T extends Object> {
             });
         
         pa.forEach((c)->System.out.println(c));
+        
+        System.out.println(pa.toString());
 
     }
 }
