@@ -8,7 +8,7 @@ class Matrix {
     public static void main(String [] args) {
         
         Integer [] p = {5,7,2,3,7,4};
-        PyramidArray<Integer> order = chain_order(p);
+        PyramidArrayBack<Integer> order = chain_order(p);
         order.forEach((x,y,data)->{
             System.out.println(Integer.toString(x)+
             ","+ Integer.toString(y)+
@@ -39,7 +39,7 @@ class Matrix {
     public static Integer compute_matrix_entry(int i,
         int j,
         int k,
-        PyramidArray<Integer> m,Integer [] p)  {
+        PyramidArrayBack<Integer> m,Integer [] p)  {
             
         return m.get(k+1,j)+m.get(i,k)+p[i-1]*p[k]*p[j];
     }
@@ -48,9 +48,9 @@ class Matrix {
      * returns a pytamid array representation of the best
      * order for matrix multiplication.
     */
-    public static PyramidArray<Integer> chain_order(Integer [] p) {
-        PyramidArray<Integer> ret_val = new PyramidArray<Integer>(p.length);
-        PyramidArray<Integer> reqs = new PyramidArray<Integer>(p.length);
+    public static PyramidArrayBack<Integer> chain_order(Integer [] p) {
+        PyramidArrayBack<Integer> ret_val = new PyramidArrayBack<Integer>(p.length);
+        PyramidArrayBack<Integer> reqs = new PyramidArrayBack<Integer>(p.length);
 
         System.out.println(reqs.size());
         System.out.println("printing data ---");
@@ -63,7 +63,7 @@ class Matrix {
             System.out.println(Integer.toString(i)+","+ Integer.toString(i));
             reqs.set(i, i, 0);
         }
-        reqs.forEach((i,j,data)->{
+        reqs.forEachLong((i,j,data)->{
             int min = Integer.MAX_VALUE;  //give up a single integer value as infinity
             int best_k = 1;
             for (int k = i; k < j ; k++) {

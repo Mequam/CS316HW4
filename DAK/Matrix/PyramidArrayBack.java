@@ -20,10 +20,20 @@ public class PyramidArrayBack<T> extends PyramidArray<T> {
             data.set(i,
                     k,(Integer.toString(i) + "," + Integer.toString(k)));
         });
-       
+      
+        
         System.out.println("---");
 
         pa.forEach((c)->System.out.println(c));
+ 
+        System.out.println("---");
+        
+        pa.forEachLong((i,k,data)->{ 
+            System.out.println(Integer.toString(i) +","+ Integer.toString(k));
+            data.set(i,
+                    k,(Integer.toString(i) + "," + Integer.toString(k))); 
+
+           });
 
     }
     
@@ -38,6 +48,21 @@ public class PyramidArrayBack<T> extends PyramidArray<T> {
     */
     public void set(int i, int j,T data){
         this.data[i][map(j)] = data;
+    }
+
+    
+    /** 
+     * runs the given function over each of the elements
+     * inside of the container
+     * 
+     * uses an ordering that travels along the long row
+     * of the matrix
+    */
+    public void forEachLong(mapRunner<T> f)  {
+        for (int i = 0;i < this.width();i++) {
+            for (int j = 0; j < this.width()-i;j++){
+                f.run(j,i+j, this); }
+        }
     }
 
     /** 
