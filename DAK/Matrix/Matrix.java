@@ -9,6 +9,7 @@ class Matrix {
         
         Integer [] p = {5,7,2,3,7,4};
         PyramidArrayBack<Integer> order = chain_order(p);
+        System.out.println(order);
         
     }
     
@@ -54,29 +55,25 @@ class Matrix {
         });
         
         reqs.forEachLong((i,j,data)->{
-            int max = Integer.MAX_VALUE;
-            int best_k = 0;
+            System.out.println("computing (" + Integer.toString(i)+","+Integer.toString(j)+")");
+            int min = Integer.MAX_VALUE;
 
-            for (int k = i; k < j-1;k++) {
+            for (int k = i; k < j;k++) {
+                System.out.println("testing " + Integer.toString(i)+","+Integer.toString(j) + "," + Integer.toString(k));
                 int challenger = compute_matrix_entry(i, j, k, reqs, p);
-                if (max > challenger) {
-                    max = challenger;
-                    best_k = k;
+                System.out.println("challenging with " + Integer.toString(challenger));
+                if (min > challenger) {
+                    min = challenger;
+                    reqs.set(i, j, min);
+                    ret_val.set(i,j,k+1);
                 }
             }
+            System.out.println("found a new minimum! " + Integer.toString(min));
         });
         
-        reqs.forEachLong((i,k,data)->{
-            
-        });
-        System.out.println("finished printing data ---");
+        System.out.println(reqs);
+        System.out.println(ret_val);
 
-        System.out.println("RUNNING MATRIX FOREACH");
-        reqs.forEachLong((j,i,data)->{
-            System.out.println(
-                Integer.toString(i) + ","  +Integer.toString(j)
-                );
-        }); 
         return ret_val;
     }
 }
