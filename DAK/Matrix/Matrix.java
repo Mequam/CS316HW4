@@ -63,7 +63,7 @@ class Matrix {
             System.out.println(Integer.toString(i)+","+ Integer.toString(i));
             reqs.set(i, i, 0);
         }
-        reqs.forEachLong((i,j,data)->{
+        reqs.forEachLong((j,i,data)->{
             int min = Integer.MAX_VALUE;  //give up a single integer value as infinity
             int best_k = 1;
             for (int k = i; k < j ; k++) {
