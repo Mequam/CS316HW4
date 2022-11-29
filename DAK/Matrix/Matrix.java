@@ -4,13 +4,41 @@ package DAK.Matrix;
 * simple class representing a matrix for orginization
 * doesn't contain much atm other than the code for getting its dimension
 */
-class Matrix {
-    public static void main(String [] args) {
+class Matrix {  
+    /** 
+     * simple convinence function to bootstrap the recursive one
+     * 
+     * this would be a good candidate for inline in c++
+    */
+    public static String parenth_location(String outputStr,PyramidArray<Integer> order) {
+        return parenth_location(0,outputStr.length()-1,outputStr,order);
+    }
+    /** 
+     * recursive function to display the parenthasis order for a string sequence
+    */
+    public static String parenth_location(int start,int stop,
+        String s,
+        PyramidArray<Integer> order
+    ){
         
-        Integer [] p = {5,7,2,3,7,4};
+        if (stop - start > 2) {
+            int insert_location = order.get(start, stop-2);
+            return "("+parenth_location(start, insert_location, s, order)+
+             ")("+
+             parenth_location(insert_location, stop, s, order)+")";
+        }
+        return s.substring(start,stop);
+    }
+    public static void main(String [] args) { 
+        Integer [] p = {30,35,15,5,10,20,25};
         PyramidArrayBack<Integer> order = chain_order(p);
+        System.out.println("S");
+        System.out.println("--------------------");
         System.out.println(order);
-        
+        String orderable = "0123456";
+        System.out.println("order");
+        System.out.println("--------------------");
+        System.out.println(parenth_location(orderable,order)); 
     }
     
     LatticePoint2D lp; 
@@ -48,20 +76,16 @@ class Matrix {
         PyramidArrayBack<Integer> ret_val = new PyramidArrayBack<Integer>(p.length-2);
         PyramidArrayBack<Integer> reqs = new PyramidArrayBack<Integer>(p.length-1);
 
-        System.out.println(reqs.size());
 
         reqs.forEachLong((i,k,data)->{
             reqs.set(i, k, 0);
         });
         
         reqs.forEachLong((i,j,data)->{
-            System.out.println("computing (" + Integer.toString(i)+","+Integer.toString(j)+")");
             int min = Integer.MAX_VALUE;
 
             for (int k = i; k < j;k++) {
-                System.out.println("testing " + Integer.toString(i)+","+Integer.toString(j) + "," + Integer.toString(k));
                 int challenger = compute_matrix_entry(i, j, k, reqs, p);
-                System.out.println("challenging with " + Integer.toString(challenger));
                 if (min > challenger) {
                     min = challenger;
                     reqs.set(i, j, min);
@@ -71,12 +95,12 @@ class Matrix {
                     } 
                 }
             }
-            System.out.println("found a new minimum! " + Integer.toString(min));
         });
-        
+        //print out the requirement matrix that we used to get here
+        //TODO: make this return along with the other value
+        System.out.println("M");
+        System.out.println("--------------------");
         System.out.println(reqs);
-        System.out.println(ret_val);
-
         return ret_val;
     }
 }
