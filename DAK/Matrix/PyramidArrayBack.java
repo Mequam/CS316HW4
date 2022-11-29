@@ -34,6 +34,9 @@ public class PyramidArrayBack<T> extends PyramidArray<T> {
                     k,(Integer.toString(i) + "," + Integer.toString(k))); 
 
            });
+        System.out.println("---");    
+        
+        System.out.println(pa);
 
     }
     
@@ -63,6 +66,20 @@ public class PyramidArrayBack<T> extends PyramidArray<T> {
             for (int j = 0; j < this.width()-i;j++){
                 f.run(j,i+j, this); }
         }
+    }
+    /** 
+     * converts the array into a string
+    */
+    @Override
+    public String toString() {
+        String ret_val = "";
+        for (int i = 0;i < this.width();i++) {
+            for (int j = 0; j < this.width()-i;j++){
+                ret_val += data[i][j] + " ";
+            }
+            ret_val += "\n";
+        }
+        return ret_val;
     }
 
     /** 
