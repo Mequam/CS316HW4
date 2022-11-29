@@ -45,7 +45,7 @@ class Matrix {
      * order for matrix multiplication.
     */
     public static PyramidArrayBack<Integer> chain_order(Integer [] p) {
-        PyramidArrayBack<Integer> ret_val = new PyramidArrayBack<Integer>(p.length-1);
+        PyramidArrayBack<Integer> ret_val = new PyramidArrayBack<Integer>(p.length-2);
         PyramidArrayBack<Integer> reqs = new PyramidArrayBack<Integer>(p.length-1);
 
         System.out.println(reqs.size());
@@ -65,7 +65,10 @@ class Matrix {
                 if (min > challenger) {
                     min = challenger;
                     reqs.set(i, j, min);
-                    ret_val.set(i,j,k+1);
+                    
+                    if (i != j) {
+                        ret_val.set(i,j-1,k+1);
+                    } 
                 }
             }
             System.out.println("found a new minimum! " + Integer.toString(min));
