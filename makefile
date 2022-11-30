@@ -10,7 +10,7 @@ remake: clean build
 run: build
 	echo '[*] running the program'
 	echo
-	java binTree/java/Test
+	java DAK/LCSS/LCSS dog hotdog
 build:
 	find . -name \*.java > to_build.txt
 	javac @to_build.txt
