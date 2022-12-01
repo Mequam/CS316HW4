@@ -6,6 +6,29 @@ package DAK.BinTree;
  * navigate the tree
 */
 public class BinTree<T extends Comparable<T>> {
+   
+    /**
+     * the testing function that the binary tree uses to compare keys 
+     * */ 
+    public Integer compare(T them,T us) {
+        return them.compareTo(us);
+    }
+
+    /** 
+     * merges two binary trees together by creating a node above 
+     * them and placing them in the tree in appropriate order
+    */
+    public BinTree<T> merge(BinTree<T> toMerge) {
+        BinTree<T> ret_val = new BinTree<>();
+        if (compare(toMerge.getData(),this.data) < 0) {
+            ret_val.leftPointer = toMerge;
+            ret_val.rightPointer = this;
+        } else {
+            ret_val.leftPointer = this;
+            ret_val.rightPointer = toMerge;
+        }
+        return ret_val;
+    }
     public BinTree() {
 
     }
@@ -30,7 +53,7 @@ public class BinTree<T extends Comparable<T>> {
     /** 
      * the data stored at this node
     */
-    private T data = null;//data defaults to null
+    protected T data = null;//data defaults to null
 
     /** 
      * getters for the left and right pointers of the tree
@@ -71,10 +94,10 @@ public class BinTree<T extends Comparable<T>> {
             this.data = data;
         }
 
-        if (data.compareTo(this.data) < 0) {
+        if (compare(this.data,data) < 0) {
             insertLeft(data);
         }
-        else if (data.compareTo(this.data) > 0) {
+        else if (compare(this.data,data) > 0) {
             insertRight(data);
         }
     }

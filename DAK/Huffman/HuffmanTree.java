@@ -38,21 +38,8 @@ public class HuffmanTree<T extends Comparable<T>> extends BinTree<T> implements 
     public BinTree<T> merge(BinTree<T> toMerge) {
         BinTree<T> ret_val = super.merge(toMerge);
         return ret_val;
-
     }
-    /** 
-     * overiding equals
-     * 
-     * note that we are only equal if we both share the same key
-    */
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof HuffmanTree<T>))
-            return false;
-        return ((HuffmanTree<T>)o).data.equals(this.data);
-    }
+    
     /** 
      * comparison on how nodes are ordered
      * used in the built in tree from java to 
