@@ -47,6 +47,6 @@ public class HuffmanTree<T extends Comparable<T>> extends BinTree<T> implements 
     */
     @Override
     public int compareTo(HuffmanTree<T> arg0) {
-        return this.data.compareTo(arg0.data);
+        return count - arg0.count;
     }
 }
