@@ -10,8 +10,12 @@ public class BinTree<T extends Comparable<T>> {
     /**
      * the testing function that the binary tree uses to compare keys 
      * */ 
-    public Integer compare(T them,T us) {
-        return them.compareTo(us);
+    public Integer compare(T us,T them) {
+        if (us == null)
+            return -1;
+        if (them == null)
+            return 1;
+        return us.compareTo(them);
     }
 
     /** 
@@ -35,12 +39,17 @@ public class BinTree<T extends Comparable<T>> {
     public BinTree(T data) {
         this.data = data;
     }
-    public interface Visit<T> {
-        public void visit(T data);
+    public interface Visit<T extends Comparable<T>> {
+        public void visit(BinTree<T> b);
     }
-    public class PrintVisit<J> implements Visit<J> {
-        public void visit(J data) {
-            System.out.print(data.toString() + " ");
+    public class PrintVisit<J extends Comparable<J>> implements Visit<J> {
+        public void visit(BinTree<J> b) {
+            J data = b.data;
+            if (data != null){
+                System.out.print(data.toString() + " ");
+            } else {
+                System.out.print("# ");   
+            }
         }
     }
 
@@ -48,8 +57,8 @@ public class BinTree<T extends Comparable<T>> {
      * the pointers to the left and right of the tree,
      * private variables so as to remain protected
     */
-    private BinTree<T> leftPointer = null; //null pointer indicates no tree
-    private BinTree<T> rightPointer = null;
+    protected BinTree<T> leftPointer = null; //null pointer indicates no tree
+    protected BinTree<T> rightPointer = null;
     /** 
      * the data stored at this node
     */
@@ -111,7 +120,7 @@ public class BinTree<T extends Comparable<T>> {
     }
     /** visit left right function */
     public void vlr(Visit<T> v) {
-        v.visit(data);
+        v.visit(this);
         if (getLeftPointer() != null) {
             getLeftPointer().vlr(v);
         }
@@ -129,7 +138,7 @@ public class BinTree<T extends Comparable<T>> {
         if (getLeftPointer() != null) {
             getLeftPointer().lvr(v);
         }
-        v.visit(data);
+        v.visit(this);
         if (getRightPointer() != null) {
             getRightPointer().lvr(v);
         }
@@ -147,7 +156,7 @@ public class BinTree<T extends Comparable<T>> {
         if (getRightPointer() != null) {
             getRightPointer().lrv(v);
         }
-        v.visit(data);
+        v.visit(this);
     }
     
     public void vrl() {
@@ -155,7 +164,7 @@ public class BinTree<T extends Comparable<T>> {
     }
     /**left right visit function */
     public void vrl(Visit<T> v) {
-        v.visit(data);
+        v.visit(this);
         if (getRightPointer() != null) {
             getRightPointer().vrl(v);
         }
@@ -172,7 +181,7 @@ public class BinTree<T extends Comparable<T>> {
         if (getRightPointer() != null) {
             getRightPointer().rvl(v);
         }
-        v.visit(data);
+        v.visit(this);
         if (getLeftPointer() != null) {
             getLeftPointer().rvl(v);
         }
@@ -188,6 +197,6 @@ public class BinTree<T extends Comparable<T>> {
         if (getLeftPointer() != null) {
             getLeftPointer().rlv(v);
         }
-        v.visit(data);
+        v.visit(this);
     }
 }
