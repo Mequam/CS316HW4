@@ -33,6 +33,26 @@ public class Huffman {
       }
       System.out.println(letterCounts);
       System.out.println(Q);
-      System.out.println(Q.poll());
+
+      HuffmanTree<Character> lowest = Q.poll();
+      HuffmanTree<Character> nextlowest = Q.poll();
+
+      while (lowest != null && nextlowest != null) {
+         
+         System.out.println("merging " +
+            lowest.getData() +
+            " and " +
+            nextlowest.getData());
+
+         //return them to the Q
+         System.out.println(lowest.merge(nextlowest));
+         Q.add(lowest.merge(nextlowest));
+         
+         lowest = Q.poll(); 
+         nextlowest = Q.poll();
+      }
+      System.out.println("out of the while loop");
+      lowest.lrv();
+      
    }
 }

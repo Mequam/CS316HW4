@@ -9,7 +9,9 @@ public class HuffmanTree<T extends Comparable<T>> extends BinTree<T> implements 
    
     @Override
     public String toString() {
-        return this.data.toString() + ":" + Integer.toString(this.count);
+        if (this.data != null)
+            return this.data.toString() + ":" + Integer.toString(this.count);
+        return Integer.toString(this.count);
     }
     public HuffmanTree(T data) {
         this.data = data;
@@ -35,11 +37,26 @@ public class HuffmanTree<T extends Comparable<T>> extends BinTree<T> implements 
      * a binary tree for these operations
     */
     @Override
-    public BinTree<T> merge(BinTree<T> toMerge) {
-        BinTree<T> ret_val = super.merge(toMerge);
+    public HuffmanTree<T> merge(BinTree<T> toMerge) {
+        HuffmanTree<T> ret_val = new HuffmanTree<T>(super.merge(toMerge));
         return ret_val;
     }
-    
+    /** 
+     * merge two HuffmanTrees together and incriment the count properly
+    */
+    public HuffmanTree<T> merge(HuffmanTree<T> toMerge) {
+        HuffmanTree<T> ret_val = new HuffmanTree<T>(super.merge(toMerge));
+        ret_val.count = this.count + toMerge.get_count();
+        return ret_val;
+    }
+  
+    /** 
+     * simple constructor to convert from a binary tree to a HuffmanTree with the given data 
+    */
+    private HuffmanTree (BinTree<T> b){
+       this.leftPointer = b.getLeftPointer(); 
+       this.rightPointer = b.getRightPointer(); 
+    }
     /** 
      * comparison on how nodes are ordered
      * used in the built in tree from java to 
