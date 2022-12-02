@@ -2,20 +2,29 @@ package DAK.Huffman;
 
 import java.util.Hashtable;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
 public class Huffman {
    public static void main(String [] args) {
-      if (args.length < 1) System.out.println("[ERROR] at least one argument is required");
+      
+      String input_string;
+      if (args.length < 1) {
+         Scanner jin = new Scanner(System.in);
+         input_string = jin.nextLine(); 
+         jin.close();
+      } else {
+         input_string = args[0];
+      }
 
       //this NEEDS to be a treap, but im tired so have a built in Hash table :p
       Hashtable<Character,HuffmanTree<Character>> letterCounts = new Hashtable<>();
       
-      int size = args[0].length();
+      int size = input_string.length();
       for (int i = 0; i < size; i++) {
-         if (!letterCounts.containsKey(args[0].charAt(i))) {
-            letterCounts.put(args[0].charAt(i), new HuffmanTree<Character>(args[0].charAt(i)));
+         if (!letterCounts.containsKey(input_string.charAt(i))) {
+            letterCounts.put(input_string.charAt(i), new HuffmanTree<Character>(input_string.charAt(i)));
          } else {
-            letterCounts.get(args[0].charAt(i)).incriment_count();
+            letterCounts.get(input_string.charAt(i)).incriment_count();
          }
       }
      
@@ -66,7 +75,7 @@ public class Huffman {
       System.out.println("----------");
 
       
-      System.out.println(1-(float)treeRun.bit_count/(float)(args[0].length()*8)); 
+      System.out.println((float)treeRun.bit_count/(float)(input_string.length()*8)); 
       
       
    }
