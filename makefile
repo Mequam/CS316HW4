@@ -8,9 +8,15 @@ remake: clean build
 	echo '[*] finished remake'
 	echo
 run: build
-	echo '[*] running the program'
-	echo
-	java DAK/LCSS/LCSS dog hotdog
+	echo '[*] Running Optimal Matrix Chain'
+	java DAK/Matrix/Matrix
+
+	echo '[*] Running Longest Common Sub Sequence'	
+	java DAK/LCSS/LCSS
+
+	echo '[*] Running Huffman Zip Example'	
+	java DAK/Huffman/Huffman
+
 build:
 	find . -name \*.java > to_build.txt
 	javac @to_build.txt
