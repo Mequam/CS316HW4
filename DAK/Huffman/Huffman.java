@@ -1,9 +1,7 @@
 package DAK.Huffman;
 
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.PriorityQueue;
-import java.util.TreeSet;
 
 public class Huffman {
    public static void main(String [] args) {
@@ -32,27 +30,51 @@ public class Huffman {
          Q.add(letterCounts.get(c));
       }
       System.out.println(letterCounts);
-      System.out.println(Q);
 
       HuffmanTree<Character> lowest = Q.poll();
       HuffmanTree<Character> nextlowest = Q.poll();
 
       while (lowest != null && nextlowest != null) {
          
-         System.out.println("merging " +
-            lowest.getData() +
-            " and " +
-            nextlowest.getData());
 
          //return them to the Q
-         System.out.println(lowest.merge(nextlowest));
+         
          Q.add(lowest.merge(nextlowest));
          
          lowest = Q.poll(); 
          nextlowest = Q.poll();
       }
-      System.out.println("out of the while loop");
-      lowest.lrv();
+
+     
+      
+      Hashtable<Character,String> encoding = lowest.get_hash_table();
+      TreeRunner treeRun = new TreeRunner(encoding,letterCounts);
+      lowest.vlr_carry((data,enc)->{
+         TreeRunner tr = (TreeRunner)enc;
+         if (data.getData() != null) {
+            tr.incriment_count((HuffmanTree<Character>)data);
+         }
+      },treeRun);
+      
+     System.out.println(treeRun.bit_count); 
+      
       
    }
+   
+   private static class TreeRunner {
+      public TreeRunner(Hashtable<Character,String> ht,
+         Hashtable<Character,HuffmanTree<Character>> len_count) {
+       
+         this.character_count = len_count;
+         this.encoding = ht;
+         this.bit_count = 0;
+      }
+      public void incriment_count(HuffmanTree<Character> c) {
+         bit_count += character_count.get(c.getData()).get_count()*encoding.get(c.getData()).length();
+      }
+      Hashtable<Character,HuffmanTree<Character>> character_count;
+      Hashtable<Character,String> encoding;
+      public int bit_count = 0;
+   }
+
 }

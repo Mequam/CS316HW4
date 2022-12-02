@@ -42,6 +42,15 @@ public class BinTree<T extends Comparable<T>> {
     public interface Visit<T extends Comparable<T>> {
         public void visit(BinTree<T> b);
     }
+    /** 
+     * interface used to traverse the binary tree with some
+     * additional carry data
+    */
+    public interface VisitWithCarry<T extends Comparable<T>> {
+        public void visit(BinTree<T> b,
+        Object carry); //if we are the right or left node
+    }
+
     public class PrintVisit<J extends Comparable<J>> implements Visit<J> {
         public void visit(BinTree<J> b) {
             J data = b.data;
@@ -112,6 +121,29 @@ public class BinTree<T extends Comparable<T>> {
     }
 
     //visit functions
+    
+    /** visit left right function that passes an object reference to its visiter*/
+    public void vlr_carry(VisitWithCarry<T> v,Object data) {
+        v.visit(this,data);
+        if (getLeftPointer() != null) {
+            getLeftPointer().vlr_carry(v, data);
+        }
+        if (getRightPointer() != null) {
+            getRightPointer().vlr_carry(v, data);
+        }
+    }
+    
+    /** visit left right function that passes an object reference to its visiter*/
+    public void lvr_carry(VisitWithCarry<T> v,Object data) {
+        if (getLeftPointer() != null) {
+            getLeftPointer().lvr_carry(v, data);
+        }
+        v.visit(this,data);
+        if (getRightPointer() != null) {
+            getRightPointer().lvr_carry(v, data);
+        }
+    }
+
 
 
     /** convinence function to set default arguments of vlr*/
@@ -129,6 +161,7 @@ public class BinTree<T extends Comparable<T>> {
         }
     }
 
+    
     /**convineince function to left visit right */
     public void lvr() {
         lvr(new PrintVisit<T>());

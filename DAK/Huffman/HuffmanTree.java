@@ -1,5 +1,7 @@
 package DAK.Huffman;
 
+import java.util.Hashtable;
+
 import DAK.BinTree.*;
 
 /** 
@@ -13,6 +15,42 @@ public class HuffmanTree<T extends Comparable<T>> extends BinTree<T> implements 
             return this.data.toString() + ":" + Integer.toString(this.count);
         return Integer.toString(this.count);
     }
+    class treeTraversalData {
+        treeTraversalData(String path,Hashtable<T,String> ref_table){
+            this.path = path;
+            this.reference_table = ref_table;
+        }
+        String path;
+        Hashtable<T,String> reference_table;
+    }
+    /** 
+     * generates the encoding table for the node
+    */
+    protected void generate_path_table(VisitWithCarry<T> v,String path,Hashtable<T,String> out) {
+        if (getLeftPointer() != null) {
+            ((HuffmanTree<T>)getLeftPointer()).generate_path_table(v, path + "0",out);
+        } 
+        v.visit(this,new treeTraversalData(path, out));
+        if (getRightPointer() != null) {
+            ((HuffmanTree<T>)getRightPointer()).generate_path_table(v, path + "1",out);
+        }
+    }
+   
+    public Hashtable<T,String> get_hash_table() {
+        Hashtable<T,String> ret_val = new Hashtable<>();
+        this.generate_path_table((node,treeData)->{
+            if (node.getData() != null) {
+            HuffmanTree<T>.treeTraversalData td = (HuffmanTree<T>.treeTraversalData)treeData;
+                System.out.println(node.getData() +
+                " " +
+                td.path);
+                (td).reference_table.put(node.getData(),td.path); 
+            }
+        }, "",ret_val);
+        
+        return ret_val;
+    }
+
     public HuffmanTree(T data) {
         this.data = data;
         this.count = 1;
