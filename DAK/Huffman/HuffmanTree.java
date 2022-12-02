@@ -41,9 +41,11 @@ public class HuffmanTree<T extends Comparable<T>> extends BinTree<T> implements 
         this.generate_path_table((node,treeData)->{
             if (node.getData() != null) {
             HuffmanTree<T>.treeTraversalData td = (HuffmanTree<T>.treeTraversalData)treeData;
-                System.out.println(node.getData() +
-                " " +
-                td.path);
+                
+                    System.out.println("\t"+node.getData() +
+                        " " +
+                        td.path);
+
                 (td).reference_table.put(node.getData(),td.path); 
             }
         }, "",ret_val);

@@ -29,8 +29,11 @@ public class Huffman {
       for (Character c : letterCounts.keySet()) {
          Q.add(letterCounts.get(c));
       }
+      System.out.println(""); 
+      System.out.println("letter counts");
+      System.out.println("----------");
       System.out.println(letterCounts);
-
+      
       HuffmanTree<Character> lowest = Q.poll();
       HuffmanTree<Character> nextlowest = Q.poll();
 
@@ -45,8 +48,10 @@ public class Huffman {
          nextlowest = Q.poll();
       }
 
-     
-      
+      System.out.println("");
+      System.out.println("encoding table");
+      System.out.println("----------");
+
       Hashtable<Character,String> encoding = lowest.get_hash_table();
       TreeRunner treeRun = new TreeRunner(encoding,letterCounts);
       lowest.vlr_carry((data,enc)->{
@@ -55,8 +60,13 @@ public class Huffman {
             tr.incriment_count((HuffmanTree<Character>)data);
          }
       },treeRun);
+     
+      System.out.println(""); 
+      System.out.println("compression percentage");
+      System.out.println("----------");
+
       
-     System.out.println(treeRun.bit_count); 
+      System.out.println(1-(float)treeRun.bit_count/(float)(args[0].length()*8)); 
       
       
    }
